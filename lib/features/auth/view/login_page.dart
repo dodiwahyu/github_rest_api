@@ -1,11 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:github_app/core/mvvm/coordinator.dart';
 import 'package:github_app/core/mvvm/view.dart';
 import 'package:github_app/features/auth/view/auth_page.dart';
 import 'package:github_app/features/auth/usecase/login_view_model.dart';
 import 'package:provider/provider.dart';
 
-class LoginPage extends ViewStateless {
+class LoginPage extends ViewStateless  {
   LoginPage({Key? key}) : super(key: key);
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -62,12 +63,12 @@ class LoginPage extends ViewStateless {
 
   Future<void> _showAuthPage(
       BuildContext context, LoginVM viewModel, String uri) async {
-    final String? url = await Navigator.push(
-        context,
-        CupertinoPageRoute(
-            builder: (context) => AuthPage(url: uri), fullscreenDialog: true));
-    if (url != null) {
-      viewModel.redirectUriAuth(url);
-    }
+    makeRoute(context: context, createPage: () => AuthPage(url: uri))
+        .then((route) async {
+      String? url = await Navigator.of(context).push(route);
+      if (url != null) {
+        viewModel.redirectUriAuth(url);
+      }
+    });
   }
 }
