@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:github_app/core/mvvm/view.dart';
 import 'package:github_app/features/auth/usecase/auth_view_model.dart';
 import 'package:provider/provider.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-class AuthPage extends StatelessWidget {
+class AuthPage extends ViewStateless {
   const AuthPage({Key? key, required this.url})
       : super(key: key);
   final String url;
-  static String hostCallBack = 'dodi.dev';
+  final String hostCallBack = 'dodi.dev';
 
   @override
   Widget build(BuildContext context) {

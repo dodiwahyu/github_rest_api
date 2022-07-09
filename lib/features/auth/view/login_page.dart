@@ -1,13 +1,11 @@
-import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:github_app/core/mvvm/view.dart';
 import 'package:github_app/features/auth/view/auth_page.dart';
 import 'package:github_app/features/auth/usecase/login_view_model.dart';
 import 'package:provider/provider.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends ViewStateless {
   LoginPage({Key? key}) : super(key: key);
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
