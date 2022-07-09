@@ -1,25 +1,38 @@
 import 'package:flutter/material.dart';
-import 'package:github_app/core/mvvm/view.dart';
-import 'package:github_app/features/auth/usecase/auth_view_model.dart';
-import 'package:provider/provider.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-class AuthPage extends ViewStateless {
+class AuthPage extends StatefulWidget {
   const AuthPage({Key? key, required this.url})
       : super(key: key);
   final String url;
+
+  @override
+  State<AuthPage> createState() => _AuthPageState();
+}
+
+class _AuthPageState extends State<AuthPage> {
+  String title = 'GitHub';
+  late WebViewController webViewController;
   final String hostCallBack = 'dodi.dev';
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final viewModel = Provider.of<AuthViewModel>(context);
-    late WebViewController webViewController;
     return Scaffold(
       appBar: AppBar(
-        title: Text(viewModel.title ?? 'Login'),
+        title: Text(title),
       ),
       body: WebView(
-        initialUrl: url,
+        initialUrl: widget.url,
         javascriptMode: JavascriptMode.unrestricted,
         gestureNavigationEnabled: true,
         onWebViewCreated: (controller) {
@@ -37,10 +50,16 @@ class AuthPage extends ViewStateless {
           return NavigationDecision.navigate;
         },
         onPageStarted: (_) async {
-          viewModel.title = await webViewController.getTitle() ?? 'GitHub';
+          String pageTitle = await webViewController.getTitle() ?? 'GitHub';
+          setState(() {
+            title = pageTitle;
+          });
         },
-        onPageFinished: (page) async {
-          viewModel.title = await webViewController.getTitle() ?? 'GitHub';
+        onPageFinished: (_) async {
+          String pageTitle = await webViewController.getTitle() ?? 'GitHub';
+          setState(() {
+            title = pageTitle;
+          });
         },
       ),
     );

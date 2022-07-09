@@ -16,7 +16,7 @@ class LoginVM extends ViewModel<LoginRepository> {
     notifyListeners();
   }
 
-  void setUserName(String username) {
+  void setUserName(String? username) {
     _username = username;
   }
 
@@ -34,17 +34,12 @@ class LoginVM extends ViewModel<LoginRepository> {
       debugPrint(error.toString());
       _loading = false;
       notifyListeners();
-
     });
   }
 
   Uri generateUrlLogin() {
-    if (_username != null) {
-      var model = LoginRequestModel(login: _username!);
-      return Uri.parse(repository.getOAuthURLString())
-          .replace(queryParameters: model.toJson());
-    } else {
-      throw Exception('Please input username or email');
-    }
+    var model = LoginRequestModel(login: _username ?? '');
+    return Uri.parse(repository.getOAuthURLString())
+        .replace(queryParameters: model.toJson());
   }
 }
