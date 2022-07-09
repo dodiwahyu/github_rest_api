@@ -1,9 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
-import 'package:github_app/core/mvvm/view.dart';
 
-extension Coordinator on ViewStateless {
+abstract class Coordinator {}
+
+extension CoordinatorImpl on Coordinator {
   Future<Route<String>> makeRoute<T extends Widget> ({
     required BuildContext context,
     required T Function() createPage
