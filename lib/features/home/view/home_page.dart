@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:github_app/api/models/user_model.dart';
 import 'package:github_app/core/mvvm/view.dart';
+import 'package:github_app/features/home/home_coordinator.dart';
 import 'package:github_app/features/home/usecase/home_view_model.dart';
 import 'package:provider/provider.dart';
 
@@ -67,7 +68,9 @@ class HomePage extends ViewStateless {
   Widget _loading() {
     if (Platform.isIOS) {
       return const Center(
-        child: CupertinoActivityIndicator(radius: 20,),
+        child: CupertinoActivityIndicator(
+          radius: 20,
+        ),
       );
     } else {
       return const Center(
@@ -140,110 +143,101 @@ class HomePage extends ViewStateless {
 
   Widget _createDrawer(
       {required BuildContext context, required HomeVM homeVM}) {
-    final List<Map<String,String>> items = [
+    final List<Map<String, String>> items = [
       {'name': 'Organization', 'icon': 'assets/images/icons/icon_org.png'},
       {'name': 'Followers', 'icon': 'assets/images/icons/icon_followers.png'},
       {'name': 'Following', 'icon': 'assets/images/icons/icon_following.png'},
       {'name': 'Starred', 'icon': 'assets/images/icons/icon_star.png'},
       {'name': 'Subscriptions', 'icon': 'assets/images/icons/icon_renew.png'},
-      {'name': 'Repos', 'icon': 'assets/images/icons/icon_repository.png'}
+      {'name': 'Repos', 'icon': 'assets/images/icons/icon_repository.png'},
+      {'name': 'Logout', 'icon': 'assets/images/icons/icon_logout.png'}
     ];
+
     return Drawer(
-      child: ListView(
-        padding: EdgeInsets.zero,
-        children: [
-          SizedBox(
-            height: 270,
-            child: DrawerHeader(
-              decoration: const BoxDecoration(
-                color: Colors.blue,
-              ),
-              child: Center(
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: 120,
-                      width: 120,
-                      child: CircleAvatar(
-                        backgroundImage:
-                            NetworkImage(homeVM.userModel?.avatarUrl ?? ''),
-                      ),
+      child: ListView.builder(
+          padding: EdgeInsets.zero,
+          itemCount: items.length + 1,
+          itemBuilder: (BuildContext context, int index) {
+            if (index == 0) {
+              return SizedBox(
+                height: 270,
+                child: DrawerHeader(
+                  decoration: const BoxDecoration(
+                    color: Colors.blue,
+                  ),
+                  child: Center(
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: 120,
+                          width: 120,
+                          child: CircleAvatar(
+                            backgroundImage:
+                                NetworkImage(homeVM.userModel?.avatarUrl ?? ''),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 12),
+                          child: Text(
+                            homeVM.userModel?.name ?? 'Anonymous',
+                            style: const TextStyle(
+                                fontSize: 21,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 3),
+                          child: Text(
+                            homeVM.userModel?.login ?? '-',
+                            style: const TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.normal,
+                                color: Colors.white70),
+                          ),
+                        )
+                      ],
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 12),
-                      child: Text(
-                        homeVM.userModel?.name ?? 'Anonymous',
-                        style: const TextStyle(
-                            fontSize: 21,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 3),
-                      child: Text(
-                        homeVM.userModel?.login ?? '-',
-                        style: const TextStyle(
-                            fontSize: 13,
-                            fontWeight: FontWeight.normal,
-                            color: Colors.white70),
-                      ),
-                    )
-                  ],
+                  ),
                 ),
-              ),
-            ),
-          ),
-          ListTile(
-            title: const Text('Organization'),
-            leading: const Image(image: AssetImage('assets/images/icons/icon_org.png')),
-            onTap: () {
-              // TODO: Navigate To Organization
-              Navigator.pop(context);
-            },
-          ),
-          ListTile(
-            title: const Text('Followers'),
-            leading: const Image(image: AssetImage('assets/images/icons/icon_followers.png')),
-            onTap: () {
-              // TODO: Navigate To Followers Screen
-              Navigator.pop(context);
-            },
-          ),
-          ListTile(
-            title: const Text('Following'),
-            leading: const Image(image: AssetImage('assets/images/icons/icon_following.png')),
-            onTap: () {
-              // TODO: Navigate to Following Screen
-              Navigator.pop(context);
-            },
-          ),
-          ListTile(
-            title: const Text('Starred'),
-            leading: const Image(image: AssetImage('assets/images/icons/icon_star.png')),
-            onTap: () {
-              // TODO: Navigate to Stared Screen
-              Navigator.pop(context);
-            },
-          ),
-          ListTile(
-            title: const Text('Subscriptions'),
-            leading: const Image(image: AssetImage('assets/images/icons/icon_renew.png')),
-            onTap: () {
-              // TODO: Navigate to Subscriptions Screen
-              Navigator.pop(context);
-            },
-          ),
-          ListTile(
-            title: const Text('Repos'),
-            leading: const Image(image: AssetImage('assets/images/icons/icon_repository.png')),
-            onTap: () {
-              // TODO: Navigate to Repos Screen
-              Navigator.pop(context);
-            },
-          )
-        ],
-      ),
+              );
+            } else {
+              final title = items[index - 1]['name'] ?? '';
+              final icon = items[index - 1]['icon'] ?? '';
+              return ListTile(
+                title: Text(title),
+                leading: SizedBox(
+                  height: 24,
+                  width: 24,
+                  child: Image(image: AssetImage(icon)),
+                ),
+                onTap: () {
+                  switch (title.toLowerCase()) {
+                    case 'organization':
+                      break;
+                    case 'followers':
+                      break;
+                    case 'following':
+                      break;
+                    case 'starred':
+                      break;
+                    case 'subscriptions':
+                      break;
+                    case 'repos':
+                      break;
+                    case 'logout':
+                      homeVM.logout().then((_) {
+                        Navigator.pop(context);
+                        navigateToLogin(context: context);
+                      });
+                      break;
+                    default:
+                      break;
+                  }
+                },
+              );
+            }
+          }),
     );
   }
 }
