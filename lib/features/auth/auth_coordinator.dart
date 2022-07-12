@@ -5,7 +5,7 @@ import 'package:github_app/features/home/view/home_page.dart';
 
 extension AuthCoordinator on LoginPage {
   void navigateToHome({required BuildContext context}) {
-    makeRoute(context: context, createPage: () => const HomePage())
+    makeRoute(context: context, createPage: () => HomePage())
         .then((route) {
       Navigator.of(context).pushReplacement(route);
     });

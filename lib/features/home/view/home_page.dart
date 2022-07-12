@@ -8,7 +8,9 @@ import 'package:github_app/features/home/usecase/home_view_model.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends ViewStateless {
-  const HomePage({Key? key}) : super(key: key);
+  HomePage({Key? key}) : super(key: key);
+
+  final GlobalKey<ScaffoldState> _key = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +26,8 @@ class HomePage extends ViewStateless {
                 );
               } else {
                 return Scaffold(
-                  appBar: _appBar(userModel: snapshot.data),
+                  key: _key,
+                  appBar: _appBar(context: context, userModel: snapshot.data),
                   body: FutureBuilder(
                     future: viewModel.getUsers(),
                     builder:
@@ -53,6 +56,7 @@ class HomePage extends ViewStateless {
                       }
                     },
                   ),
+                  drawer: _createDrawer(context: context, homeVM: viewModel),
                 );
               }
             });
@@ -72,13 +76,17 @@ class HomePage extends ViewStateless {
     }
   }
 
-  AppBar _appBar({required UserModel? userModel}) {
+  AppBar _appBar(
+      {required BuildContext context, required UserModel? userModel}) {
     return AppBar(
       title: Text(userModel?.name ?? userModel?.login ?? 'Anonymous'),
       leading: Container(
         margin: const EdgeInsets.only(left: 16.0),
-        child: CircleAvatar(
-          backgroundImage: NetworkImage(userModel?.avatarUrl ?? ''),
+        child: GestureDetector(
+          child: CircleAvatar(
+            backgroundImage: NetworkImage(userModel?.avatarUrl ?? ''),
+          ),
+          onTap: () => _key.currentState?.openDrawer(),
         ),
       ),
     );
@@ -126,6 +134,102 @@ class HomePage extends ViewStateless {
           backgroundImage: NetworkImage(userModel.avatarUrl ?? ''),
           backgroundColor: Colors.blue,
         ),
+      ),
+    );
+  }
+
+  Widget _createDrawer(
+      {required BuildContext context, required HomeVM homeVM}) {
+    return Drawer(
+      child: ListView(
+        // Important: Remove any padding from the ListView.
+        padding: EdgeInsets.zero,
+        children: [
+          SizedBox(
+            height: 270,
+            child: DrawerHeader(
+              decoration: const BoxDecoration(
+                color: Colors.blue,
+              ),
+              child: Center(
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: 120,
+                      width: 120,
+                      child: CircleAvatar(
+                        backgroundImage:
+                            NetworkImage(homeVM.userModel?.avatarUrl ?? ''),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 12),
+                      child: Text(
+                        homeVM.userModel?.name ?? 'Anonymous',
+                        style: const TextStyle(
+                            fontSize: 21,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 3),
+                      child: Text(
+                        homeVM.userModel?.login ?? '-',
+                        style: const TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.normal,
+                            color: Colors.white70),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
+          ),
+          ListTile(
+            title: const Text('Organization'),
+            onTap: () {
+              // TODO: Navigate To Organization
+              Navigator.pop(context);
+            },
+          ),
+          ListTile(
+            title: const Text('Followers'),
+            onTap: () {
+              // TODO: Navigate To Followers Screen
+              Navigator.pop(context);
+            },
+          ),
+          ListTile(
+            title: const Text('Following'),
+            onTap: () {
+              // TODO: Navigate to Following Screen
+              Navigator.pop(context);
+            },
+          ),
+          ListTile(
+            title: const Text('Starred'),
+            onTap: () {
+              // TODO: Navigate to Stared Screen
+              Navigator.pop(context);
+            },
+          ),
+          ListTile(
+            title: const Text('Subscriptions'),
+            onTap: () {
+              // TODO: Navigate to Subscriptions Screen
+              Navigator.pop(context);
+            },
+          ),
+          ListTile(
+            title: const Text('Repos'),
+            onTap: () {
+              // TODO: Navigate to Repos Screen
+              Navigator.pop(context);
+            },
+          )
+        ],
       ),
     );
   }

@@ -50,7 +50,7 @@ class MyApp extends StatelessWidget with ModuleFactory {
             final isLoggedIn = snapshot.data ?? false;
 
             if (isLoggedIn) {
-              return const HomePage();
+              return HomePage();
             }
 
             return LoginPage();
