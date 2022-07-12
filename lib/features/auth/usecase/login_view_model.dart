@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:github_app/api/models/auth_model.dart';
 import 'package:github_app/core/mvvm/view_model.dart';
 import 'package:github_app/features/auth/models/login_req_model.dart';
 import 'package:github_app/features/auth/usecase/login_repository.dart';
@@ -20,20 +21,15 @@ class LoginVM extends ViewModel<LoginRepository> {
     _username = username;
   }
 
-  void redirectUriAuth(String url) {
+  Future<void> redirectUriAuth(String url) async {
     _loading = true;
     notifyListeners();
 
     Uri uri = Uri.parse(url);
-    repository.requestToken(uri: uri).then((auth) {
-      debugPrint(auth.accessToken);
+    return repository.requestToken(uri: uri).then((auth) {
       _loading = false;
       notifyListeners();
-
-    }).onError((error, stackTrace) {
-      debugPrint(error.toString());
-      _loading = false;
-      notifyListeners();
+      return auth.saveToPreferences();
     });
   }
 

@@ -22,9 +22,9 @@ extension HTTPRequestImpl on HTTPRequest {
     Map<String,String> allHeaders = {'Accept': 'application/json'};
 
     // Set custom header
-    if (headers != null) {
-      allHeaders.addAll(headers!);
-    }
+    headers?.forEach((key, value) {
+      allHeaders[key] = value;
+    });
 
     switch (method) {
       case HTTPMethod.get:

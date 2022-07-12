@@ -5,7 +5,7 @@ import 'package:github_app/features/auth/usecase/login_repository.dart';
 
 extension AuthFactory on ModuleFactory {
   LoginVM makeAuthVM({BuildContext? context}) {
-    LoginRepository repository = LoginRepository();
+    final LoginRepository repository = LoginRepository();
     return LoginVM(repository: repository);
   }
 }

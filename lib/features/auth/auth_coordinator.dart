@@ -1,5 +1,13 @@
-import 'package:github_app/features/auth/view/auth_page.dart';
+import 'package:flutter/material.dart';
+import 'package:github_app/core/mvvm/coordinator.dart';
+import 'package:github_app/features/auth/view/login_page.dart';
+import 'package:github_app/features/home/view/home_page.dart';
 
-extension AuthCoordinator on AuthPage {
-
+extension AuthCoordinator on LoginPage {
+  void navigateToHome({required BuildContext context}) {
+    makeRoute(context: context, createPage: () => const HomePage())
+        .then((route) {
+      Navigator.of(context).pushReplacement(route);
+    });
+  }
 }

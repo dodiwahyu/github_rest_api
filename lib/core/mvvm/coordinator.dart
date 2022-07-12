@@ -9,7 +9,7 @@ extension CoordinatorImpl on Coordinator {
     required BuildContext context,
     required T Function() createPage
   }) async {
-    var page = await buildWidgetAsync(createPage);
+    var page = await buildWidgetAsync<T>(createPage);
     return CupertinoPageRoute(
         builder: (_) => page,
         fullscreenDialog: true
@@ -26,4 +26,3 @@ extension CoordinatorImpl on Coordinator {
     });
   }
 }
-

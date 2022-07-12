@@ -1,10 +1,11 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:github_app/core/mvvm/coordinator.dart';
 import 'package:github_app/core/mvvm/view.dart';
+import 'package:github_app/features/auth/auth_coordinator.dart';
 import 'package:github_app/features/auth/view/auth_page.dart';
 import 'package:github_app/features/auth/usecase/login_view_model.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends ViewStateless  {
   LoginPage({Key? key}) : super(key: key);
@@ -67,7 +68,9 @@ class LoginPage extends ViewStateless  {
         .then((route) async {
       String? url = await Navigator.of(context).push(route);
       if (url != null) {
-        viewModel.redirectUriAuth(url);
+        await viewModel.redirectUriAuth(url).then((_) {
+          navigateToHome(context: context);
+        });
       }
     });
   }

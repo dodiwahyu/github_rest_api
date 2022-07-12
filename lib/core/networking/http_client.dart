@@ -1,11 +1,13 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
+import 'package:github_app/core/networking/http_exception.dart';
 import 'package:github_app/core/networking/http_identifier.dart';
 import 'package:github_app/core/networking/http_request.dart';
 import 'package:http/http.dart';
 
-typedef ResponseBuilderCallBack<T> = T Function(Map<String, dynamic> json);
+typedef ResponseBuilderCallBack<T> = T Function(dynamic json);
 
 abstract class HTTPClient {
   HTTPIdentifier get httpIdentifier;
@@ -23,16 +25,16 @@ class HTTPClientImpl implements HTTPClient {
   Future<T> send<T>(HTTPRequest request, ResponseBuilderCallBack builderCallBack) async {
     try {
       Response response = await request.send(client, httpIdentifier);
+      var decodeResponse = jsonDecode(utf8.decode(response.bodyBytes));
       if (response.statusCode == 200) {
-        var decodeResponse = jsonDecode(utf8.decode(response.bodyBytes));
         return builderCallBack(decodeResponse);
       } else {
-        throw Exception(['Response not success']);
+        final message = decodeResponse['message'];
+        final statusCode = response.statusCode;
+        throw AppHttpException(message, statusCode: statusCode);
       }
     } on HttpException {
       throw Exception(['Check your connection']);
-    } on Exception {
-      throw Exception(['Error response']);
     }
   }
 }
