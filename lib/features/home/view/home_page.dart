@@ -36,7 +36,7 @@ class HomePage extends ViewStateless {
                         if (Platform.isIOS) {
                           return const Center(
                             child: CupertinoActivityIndicator(
-                              radius: 24,
+                              radius: 20,
                             ),
                           );
                         } else {
@@ -67,7 +67,7 @@ class HomePage extends ViewStateless {
   Widget _loading() {
     if (Platform.isIOS) {
       return const Center(
-        child: CupertinoActivityIndicator(),
+        child: CupertinoActivityIndicator(radius: 20,),
       );
     } else {
       return const Center(
@@ -140,9 +140,16 @@ class HomePage extends ViewStateless {
 
   Widget _createDrawer(
       {required BuildContext context, required HomeVM homeVM}) {
+    final List<Map<String,String>> items = [
+      {'name': 'Organization', 'icon': 'assets/images/icons/icon_org.png'},
+      {'name': 'Followers', 'icon': 'assets/images/icons/icon_followers.png'},
+      {'name': 'Following', 'icon': 'assets/images/icons/icon_following.png'},
+      {'name': 'Starred', 'icon': 'assets/images/icons/icon_star.png'},
+      {'name': 'Subscriptions', 'icon': 'assets/images/icons/icon_renew.png'},
+      {'name': 'Repos', 'icon': 'assets/images/icons/icon_repository.png'}
+    ];
     return Drawer(
       child: ListView(
-        // Important: Remove any padding from the ListView.
         padding: EdgeInsets.zero,
         children: [
           SizedBox(
@@ -189,6 +196,7 @@ class HomePage extends ViewStateless {
           ),
           ListTile(
             title: const Text('Organization'),
+            leading: const Image(image: AssetImage('assets/images/icons/icon_org.png')),
             onTap: () {
               // TODO: Navigate To Organization
               Navigator.pop(context);
@@ -196,6 +204,7 @@ class HomePage extends ViewStateless {
           ),
           ListTile(
             title: const Text('Followers'),
+            leading: const Image(image: AssetImage('assets/images/icons/icon_followers.png')),
             onTap: () {
               // TODO: Navigate To Followers Screen
               Navigator.pop(context);
@@ -203,6 +212,7 @@ class HomePage extends ViewStateless {
           ),
           ListTile(
             title: const Text('Following'),
+            leading: const Image(image: AssetImage('assets/images/icons/icon_following.png')),
             onTap: () {
               // TODO: Navigate to Following Screen
               Navigator.pop(context);
@@ -210,6 +220,7 @@ class HomePage extends ViewStateless {
           ),
           ListTile(
             title: const Text('Starred'),
+            leading: const Image(image: AssetImage('assets/images/icons/icon_star.png')),
             onTap: () {
               // TODO: Navigate to Stared Screen
               Navigator.pop(context);
@@ -217,6 +228,7 @@ class HomePage extends ViewStateless {
           ),
           ListTile(
             title: const Text('Subscriptions'),
+            leading: const Image(image: AssetImage('assets/images/icons/icon_renew.png')),
             onTap: () {
               // TODO: Navigate to Subscriptions Screen
               Navigator.pop(context);
@@ -224,6 +236,7 @@ class HomePage extends ViewStateless {
           ),
           ListTile(
             title: const Text('Repos'),
+            leading: const Image(image: AssetImage('assets/images/icons/icon_repository.png')),
             onTap: () {
               // TODO: Navigate to Repos Screen
               Navigator.pop(context);
