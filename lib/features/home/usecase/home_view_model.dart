@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:github_app/api/models/auth_model.dart';
 import 'package:github_app/api/models/user_model.dart';
 import 'package:github_app/core/mvvm/view_model.dart';

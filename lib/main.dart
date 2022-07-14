@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:github_app/api/models/auth_model.dart';
 import 'package:github_app/app_constants.dart';
 import 'package:github_app/core/mvvm/module_factory.dart';
 import 'package:github_app/features/auth/auth_factory.dart';
 import 'package:github_app/features/auth/view/login_page.dart';
-import 'package:github_app/features/auth/usecase/login_view_model.dart';
-import 'package:github_app/features/auth/usecase/login_repository.dart';
 import 'package:github_app/features/home/home_factory.dart';
 import 'package:github_app/features/home/view/home_page.dart';
+import 'package:github_app/features/user/user_factory.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -32,6 +30,7 @@ class MyApp extends StatelessWidget with ModuleFactory {
       providers: [
         ChangeNotifierProvider(create: (_) => makeAuthVM()),
         ChangeNotifierProvider(create: (_) => makeHomeVM()),
+        ChangeNotifierProvider(create: (_) => makeUserVM()),
       ],
       child: MaterialApp(
         title: 'GitHub App',

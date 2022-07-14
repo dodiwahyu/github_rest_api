@@ -7,12 +7,13 @@ abstract class Coordinator {}
 extension CoordinatorImpl on Coordinator {
   Future<Route<String>> makeRoute<T extends Widget> ({
     required BuildContext context,
+    bool navigationModal = true,
     required T Function() createPage
   }) async {
     var page = await buildWidgetAsync<T>(createPage);
     return CupertinoPageRoute(
         builder: (_) => page,
-        fullscreenDialog: true
+        fullscreenDialog: navigationModal == false
     );
   }
   

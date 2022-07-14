@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:github_app/api/models/auth_model.dart';
 import 'package:github_app/core/mvvm/view_model.dart';
 import 'package:github_app/features/auth/models/login_req_model.dart';
 import 'package:github_app/features/auth/usecase/login_repository.dart';

@@ -6,6 +6,7 @@ import 'package:github_app/api/models/user_model.dart';
 import 'package:github_app/core/mvvm/view.dart';
 import 'package:github_app/features/home/home_coordinator.dart';
 import 'package:github_app/features/home/usecase/home_view_model.dart';
+import 'package:github_app/features/user/usecase/user_view_model.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends ViewStateless {
@@ -106,12 +107,23 @@ class HomePage extends ViewStateless {
         return FutureBuilder(
             future: viewModel.getUser(userModel.login ?? ''),
             builder: (BuildContext context, AsyncSnapshot<UserModel> snapshot) {
+              Widget card;
               if (snapshot.connectionState == ConnectionState.done) {
                 final user = snapshot.data ?? userModel;
-                return _card(userModel: user);
+                card = _card(userModel: user);
               } else {
-                return _card(userModel: userModel);
+                card = _card(userModel: userModel);
               }
+
+              return GestureDetector(
+                child: card,
+                onTap: () {
+                  final selectedModel = users[index];
+                  navigateToUserDetail(context: context,
+                      userModel: selectedModel,
+                      pageType: UserPageType.overView);
+                },
+              );
             });
       },
     );
@@ -155,6 +167,7 @@ class HomePage extends ViewStateless {
 
     return Drawer(
       child: ListView.builder(
+        physics: const NeverScrollableScrollPhysics(),
           padding: EdgeInsets.zero,
           itemCount: items.length + 1,
           itemBuilder: (BuildContext context, int index) {
@@ -173,7 +186,7 @@ class HomePage extends ViewStateless {
                           width: 120,
                           child: CircleAvatar(
                             backgroundImage:
-                                NetworkImage(homeVM.userModel?.avatarUrl ?? ''),
+                            NetworkImage(homeVM.userModel?.avatarUrl ?? ''),
                           ),
                         ),
                         Padding(

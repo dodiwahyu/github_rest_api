@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:flutter/foundation.dart';
 import 'package:github_app/core/networking/http_exception.dart';
 import 'package:github_app/core/networking/http_identifier.dart';
 import 'package:github_app/core/networking/http_request.dart';
@@ -34,7 +33,7 @@ class HTTPClientImpl implements HTTPClient {
         throw AppHttpException(message, statusCode: statusCode);
       }
     } on HttpException {
-      throw Exception(['Check your connection']);
+      throw AppHttpException('Check your connection', statusCode: 0);
     }
   }
 }

@@ -1,6 +1,3 @@
-import 'dart:ffi';
-
-import 'package:flutter/foundation.dart';
 import 'package:github_app/app_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
