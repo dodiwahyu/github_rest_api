@@ -17,7 +17,6 @@ class UserVM extends ViewModel<UserRepository> {
   UserPageType? get pageType => _pageType;
   void setUserPageType(UserPageType pageType) {
     _pageType = pageType;
-    notifyListeners();
   }
 
 

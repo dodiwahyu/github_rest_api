@@ -6,6 +6,8 @@ import 'package:github_app/api/models/user_model.dart';
 import 'package:github_app/core/mvvm/view.dart';
 import 'package:github_app/features/home/home_coordinator.dart';
 import 'package:github_app/features/home/usecase/home_view_model.dart';
+import 'package:github_app/features/home/view/home_drawer.dart';
+import 'package:github_app/features/home/view/user_list_view_item.dart';
 import 'package:github_app/features/user/usecase/user_view_model.dart';
 import 'package:provider/provider.dart';
 
@@ -58,7 +60,30 @@ class HomePage extends ViewStateless {
                       }
                     },
                   ),
-                  drawer: _createDrawer(context: context, homeVM: viewModel),
+                  drawer: HomeDrawer(context: context, homeVM: viewModel, callBack: (selectedItem) {
+                    switch (selectedItem) {
+                      case 'organization':
+                        break;
+                      case 'followers':
+                        break;
+                      case 'following':
+                        break;
+                      case 'starred':
+                        break;
+                      case 'subscriptions':
+                        break;
+                      case 'repos':
+                        break;
+                      case 'logout':
+                        viewModel.logout().then((_) {
+                          Navigator.pop(context);
+                          navigateToLogin(context: context);
+                        });
+                        break;
+                      default:
+                        break;
+                    }
+                  },),
                 );
               }
             });
@@ -107,18 +132,18 @@ class HomePage extends ViewStateless {
         return FutureBuilder(
             future: viewModel.getUser(userModel.login ?? ''),
             builder: (BuildContext context, AsyncSnapshot<UserModel> snapshot) {
-              Widget card;
+              UserListViewItem card;
               if (snapshot.connectionState == ConnectionState.done) {
                 final user = snapshot.data ?? userModel;
-                card = _card(userModel: user);
+                card = UserListViewItem(userModel: user);
               } else {
-                card = _card(userModel: userModel);
+                card = UserListViewItem(userModel: userModel);
               }
 
               return GestureDetector(
                 child: card,
                 onTap: () {
-                  final selectedModel = users[index];
+                  final selectedModel = card.userModel;
                   navigateToUserDetail(context: context,
                       userModel: selectedModel,
                       pageType: UserPageType.overView);
@@ -128,129 +153,5 @@ class HomePage extends ViewStateless {
       },
     );
   }
-
-  Widget _card({required UserModel userModel}) {
-    return Card(
-      margin: const EdgeInsets.only(top: 4.0, bottom: 4.0),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
-      ),
-      elevation: 16.0,
-      shadowColor: Colors.grey.shade50,
-      child: ListTile(
-        contentPadding: const EdgeInsets.only(left: 12.0, right: 12.0),
-        style: ListTileStyle.drawer,
-        title: Text(
-          userModel.name ?? 'Anonymous',
-          style: const TextStyle(fontSize: 18.0, color: Colors.lightBlueAccent),
-        ),
-        subtitle: Text(userModel.login ?? '-'),
-        leading: CircleAvatar(
-          backgroundImage: NetworkImage(userModel.avatarUrl ?? ''),
-          backgroundColor: Colors.blue,
-        ),
-      ),
-    );
-  }
-
-  Widget _createDrawer(
-      {required BuildContext context, required HomeVM homeVM}) {
-    final List<Map<String, String>> items = [
-      {'name': 'Organization', 'icon': 'assets/images/icons/icon_org.png'},
-      {'name': 'Followers', 'icon': 'assets/images/icons/icon_followers.png'},
-      {'name': 'Following', 'icon': 'assets/images/icons/icon_following.png'},
-      {'name': 'Starred', 'icon': 'assets/images/icons/icon_star.png'},
-      {'name': 'Subscriptions', 'icon': 'assets/images/icons/icon_renew.png'},
-      {'name': 'Repos', 'icon': 'assets/images/icons/icon_repository.png'},
-      {'name': 'Logout', 'icon': 'assets/images/icons/icon_logout.png'}
-    ];
-
-    return Drawer(
-      child: ListView.builder(
-        physics: const NeverScrollableScrollPhysics(),
-          padding: EdgeInsets.zero,
-          itemCount: items.length + 1,
-          itemBuilder: (BuildContext context, int index) {
-            if (index == 0) {
-              return SizedBox(
-                height: 270,
-                child: DrawerHeader(
-                  decoration: const BoxDecoration(
-                    color: Colors.blue,
-                  ),
-                  child: Center(
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: 120,
-                          width: 120,
-                          child: CircleAvatar(
-                            backgroundImage:
-                            NetworkImage(homeVM.userModel?.avatarUrl ?? ''),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 12),
-                          child: Text(
-                            homeVM.userModel?.name ?? 'Anonymous',
-                            style: const TextStyle(
-                                fontSize: 21,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 3),
-                          child: Text(
-                            homeVM.userModel?.login ?? '-',
-                            style: const TextStyle(
-                                fontSize: 13,
-                                fontWeight: FontWeight.normal,
-                                color: Colors.white70),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-              );
-            } else {
-              final title = items[index - 1]['name'] ?? '';
-              final icon = items[index - 1]['icon'] ?? '';
-              return ListTile(
-                title: Text(title),
-                leading: SizedBox(
-                  height: 24,
-                  width: 24,
-                  child: Image(image: AssetImage(icon)),
-                ),
-                onTap: () {
-                  switch (title.toLowerCase()) {
-                    case 'organization':
-                      break;
-                    case 'followers':
-                      break;
-                    case 'following':
-                      break;
-                    case 'starred':
-                      break;
-                    case 'subscriptions':
-                      break;
-                    case 'repos':
-                      break;
-                    case 'logout':
-                      homeVM.logout().then((_) {
-                        Navigator.pop(context);
-                        navigateToLogin(context: context);
-                      });
-                      break;
-                    default:
-                      break;
-                  }
-                },
-              );
-            }
-          }),
-    );
-  }
 }
+
