@@ -146,7 +146,7 @@ class HomePage extends ViewStateless {
                   final selectedModel = card.userModel;
                   navigateToUserDetail(context: context,
                       userModel: selectedModel,
-                      pageType: UserPageType.overView);
+                      pageType: UserPageType.organization);
                 },
               );
             });
