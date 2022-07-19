@@ -7,6 +7,7 @@ import 'package:flutter/src/rendering/sliver_grid.dart';
 import 'package:github_app/api/models/user_model.dart';
 import 'package:github_app/core/mvvm/view.dart';
 import 'package:github_app/features/user/usecase/user_view_model.dart';
+import 'package:github_app/features/user/view/user_list_view.dart';
 import 'package:github_app/features/user/view/user_org.dart';
 import 'package:provider/provider.dart';
 
@@ -112,6 +113,10 @@ class _UserPageState extends State<UserPage> {
       switch (vm.pageType) {
         case UserPageType.organization:
           return UserOrgView(vm: vm);
+        case UserPageType.followers:
+          return UserListView(users: vm.followers,isLoading: vm.loadingUpdateContent,);
+        case UserPageType.following:
+          return UserListView(users: vm.following, isLoading: vm.loadingUpdateContent,);
         default:
           return SliverFillRemaining(
             hasScrollBody: false,

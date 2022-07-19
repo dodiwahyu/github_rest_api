@@ -34,8 +34,28 @@ class UserServices implements API {
     return httpClient.send(req, callBack);
   }
 
-  Future<List<UserOrgModel>> getOrg({ required String login, required ResponseBuilderCallBack callBack}) async {
+  Future<List<UserOrgModel>> getOrg(
+      {required String login,
+      required ResponseBuilderCallBack callBack}) async {
     final req = HTTPRequest(path: '/users/$login/orgs', method: HTTPMethod.get);
+    await req.setHeader(isAuthenticated: true);
+    return httpClient.send(req, callBack);
+  }
+
+  Future<List<UserModel>> getFollowers(
+      {required String login,
+      required ResponseBuilderCallBack callBack}) async {
+    final req =
+        HTTPRequest(path: '/users/$login/followers', method: HTTPMethod.get);
+    await req.setHeader(isAuthenticated: true);
+    return httpClient.send(req, callBack);
+  }
+
+  Future<List<UserModel>> getFollowing(
+      {required String login,
+        required ResponseBuilderCallBack callBack}) async {
+    final req =
+    HTTPRequest(path: '/users/$login/following', method: HTTPMethod.get);
     await req.setHeader(isAuthenticated: true);
     return httpClient.send(req, callBack);
   }

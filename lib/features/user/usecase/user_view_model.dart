@@ -15,8 +15,8 @@ enum UserPageType {
 class UserVM extends ViewModel<UserRepository> {
   UserVM({required super.repository});
 
-  bool _loadingGetOrg = false;
-  bool get loadingUpdateOrg => _loadingGetOrg;
+  bool _loadingUpdateContent = false;
+  bool get loadingUpdateContent => _loadingUpdateContent;
 
   UserPageType? _currentPageType;
   UserPageType get pageType {
@@ -29,8 +29,31 @@ class UserVM extends ViewModel<UserRepository> {
   List<UserOrgModel> _listOrg = [];
   List<UserOrgModel> get listOrg => _listOrg;
 
+  List<UserModel> _followers = [];
+  List<UserModel> get followers => _followers;
+
+  List<UserModel> _following = [];
+  List<UserModel> get following => _following;
+
   void setUserPageType(UserPageType pageType, {bool needToRefresh = false}) {
     _currentPageType = pageType;
+    switch (pageType) {
+      case UserPageType.organization:
+        getUserOrganization();
+        break;
+
+      case UserPageType.followers:
+        getUserFollowers();
+        break;
+
+      case UserPageType.following:
+        getUserFollowing();
+        break;
+
+      default:
+        break;
+    }
+
     if (needToRefresh) {
       notifyListeners();
     }
@@ -43,13 +66,14 @@ class UserVM extends ViewModel<UserRepository> {
     }
   }
 
+  // Get user organization
   void getUserOrganization() async {
     final username = userModel?.login;
     if (username == null) {
       return;
     }
 
-    _loadingGetOrg = true;
+    _loadingUpdateContent = true;
     notifyListeners();
 
     try {
@@ -59,13 +83,64 @@ class UserVM extends ViewModel<UserRepository> {
         return list.map((json) => UserOrgModel.fromJson(json)).toList();
       });
 
-      _loadingGetOrg = false;
+      _loadingUpdateContent = false;
       notifyListeners();
     } catch (e)  {
       print(e);
 
-      _loadingGetOrg = false;
+      _loadingUpdateContent = false;
       notifyListeners();
     }
   }
+
+  void getUserFollowers() async {
+    final username = userModel?.login;
+    if (username == null) {
+      return;
+    }
+
+    _loadingUpdateContent = true;
+    notifyListeners();
+
+    try {
+      _followers = await repository.userServices.getFollowers(login: username, callBack: (response){
+        final list = response as List;
+        return list.map((e) => UserModel.fromJson(e)).toList();
+      });
+
+      _loadingUpdateContent = false;
+      notifyListeners();
+    } catch (e) {
+      print(e);
+
+      _loadingUpdateContent = false;
+      notifyListeners();
+    }
+  }
+
+  void getUserFollowing() async {
+    final username = userModel?.login;
+    if (username == null) {
+      return;
+    }
+
+    _loadingUpdateContent = true;
+    notifyListeners();
+
+    try {
+      _following = await repository.userServices.getFollowing(login: username, callBack: (response){
+        final list = response as List;
+        return list.map((e) => UserModel.fromJson(e)).toList();
+      });
+
+      _loadingUpdateContent = false;
+      notifyListeners();
+    } catch (e) {
+      print(e);
+
+      _loadingUpdateContent = false;
+      notifyListeners();
+    }
+  }
+
 }

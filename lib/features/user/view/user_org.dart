@@ -14,7 +14,7 @@ class UserOrgView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (vm.loadingUpdateOrg) {
+    if (vm.loadingUpdateContent) {
       return SliverFillRemaining(
           hasScrollBody: false,
           child: SafeArea(
