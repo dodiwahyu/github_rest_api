@@ -97,6 +97,7 @@ class _UserPageState extends State<UserPage> {
                           pinned: true,
                           delegate: _MenuHeader(userModel: userModel)),
                       _buildContent(),
+                      const SliverPadding(padding: EdgeInsets.only(bottom: 32.0))
                     ],
                   );
                 }),
