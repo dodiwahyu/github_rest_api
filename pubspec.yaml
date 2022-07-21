@@ -41,6 +41,7 @@ dependencies:
   flutter_dotenv: ^5.0.2
   flutter_spinkit: ^5.1.0
   shared_preferences: ^2.0.15
+  flutter_svg: ^1.1.1+1
 
 dev_dependencies:
   flutter_test:

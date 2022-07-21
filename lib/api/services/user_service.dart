@@ -1,3 +1,4 @@
+import 'package:github_app/api/models/git_repo_model.dart';
 import 'package:github_app/api/services/services.dart';
 import 'package:github_app/core/networking/api.dart';
 import 'package:github_app/api/identifiers.dart';
@@ -59,4 +60,23 @@ class UserServices implements API {
     await req.setHeader(isAuthenticated: true);
     return httpClient.send(req, callBack);
   }
+
+  Future<List<GitRepoModel>> getPinnedRepo({required String login, required ResponseBuilderCallBack callBack}) async {
+    final req = HTTPRequest(path: '/users/$login/starred', method: HTTPMethod.get);
+    await req.setHeader(isAuthenticated: true);
+    return httpClient.send(req, callBack);
+  }
+  
+  Future<List<GitRepoModel>> getSubscriptions({required String login, required ResponseBuilderCallBack callBack}) async {
+    final req = HTTPRequest(path: '/users/$login/subscriptions', method: HTTPMethod.get);
+    await req.setHeader(isAuthenticated: true);
+    return httpClient.send(req, callBack);
+  }
+
+  Future<List<GitRepoModel>> getRepos({required String login, required ResponseBuilderCallBack callBack}) async {
+    final req = HTTPRequest(path: '/users/$login/repos', method: HTTPMethod.get);
+    await req.setHeader(isAuthenticated: true);
+    return httpClient.send(req, callBack);
+  }
+  
 }

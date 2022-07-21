@@ -7,6 +7,7 @@ import 'package:flutter/src/rendering/sliver_grid.dart';
 import 'package:github_app/api/models/user_model.dart';
 import 'package:github_app/core/mvvm/view.dart';
 import 'package:github_app/features/user/usecase/user_view_model.dart';
+import 'package:github_app/features/user/view/repo_list_view.dart';
 import 'package:github_app/features/user/view/user_list_view.dart';
 import 'package:github_app/features/user/view/user_org.dart';
 import 'package:provider/provider.dart';
@@ -58,6 +59,8 @@ class _UserPageState extends State<UserPage> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+    final vm = Provider.of<UserVM>(context,listen: false);
+    vm.reset();
   }
 
   void _listenToScrollChange() {
@@ -117,6 +120,12 @@ class _UserPageState extends State<UserPage> {
           return UserListView(users: vm.followers,isLoading: vm.loadingUpdateContent,);
         case UserPageType.following:
           return UserListView(users: vm.following, isLoading: vm.loadingUpdateContent,);
+        case UserPageType.starred:
+          return RepoListView(listRepo: vm.listPinnedRepo, isLoading: vm.loadingUpdateContent);
+        case UserPageType.subscriptions:
+          return RepoListView(listRepo: vm.subscriptions, isLoading: vm.loadingUpdateContent);
+        case UserPageType.repos:
+          return RepoListView(listRepo: vm.repos, isLoading: vm.loadingUpdateContent);
         default:
           return SliverFillRemaining(
             hasScrollBody: false,
@@ -211,11 +220,16 @@ class _MenuHeader extends SliverPersistentHeaderDelegate {
                           AnimatedOpacity(
                               opacity: opacityValue,
                               duration: const Duration(microseconds: 300),
-                              child: Icon(
-                                Platform.isIOS
-                                    ? Icons.arrow_back_ios
-                                    : Icons.arrow_back,
-                                color: Colors.white,
+                              child: GestureDetector(
+                                onTap: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: Icon(
+                                  Platform.isIOS
+                                      ? Icons.arrow_back_ios
+                                      : Icons.arrow_back,
+                                  color: Colors.white,
+                                ),
                               )),
                           AnimatedSlide(
                             duration: const Duration(microseconds: 300),
