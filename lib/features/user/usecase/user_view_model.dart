@@ -59,6 +59,9 @@ class UserVM extends ViewModel<UserRepository> {
     _listOrg = [];
     _following = [];
     _followers = [];
+    _listPinnedRepo = [];
+    _subscriptions = [];
+    _repos = [];
   }
 
   void setUserPageType(UserPageType pageType, {bool needToRefresh = false}) {

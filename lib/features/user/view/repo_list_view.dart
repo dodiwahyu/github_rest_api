@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:ui' as ui show PlaceholderAlignment;
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -66,42 +67,43 @@ class RepoListView extends StatelessWidget {
                                 color: Colors.white70,
                               ),
                             ),
-                            Flexible(
-                              child: FittedBox(
-                                fit: BoxFit.fitWidth,
-                                child: Text(
-                                  repo.fullName ?? '-',
-                                  maxLines: 1,
-                                  softWrap: false,
-                                  overflow: TextOverflow.ellipsis,
+                            Expanded(
+                              child: RichText(
+                                maxLines: 5,
+                                text: TextSpan(
+                                  text: '${repo.fullName ?? '-'}  ',
                                   style: const TextStyle(
-                                      fontSize: 15.0,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white),
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 8.0),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  border: Border.all(color: Colors.white70),
-                                  borderRadius: BorderRadius.circular(20.0),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 8.0,
-                                      top: 1.0,
-                                      right: 8.0,
-                                      bottom: 1.0),
-                                  child: Text(
-                                    repo.private == true ? 'Private' : 'Public',
-                                    style: const TextStyle(
-                                        fontSize: 12.0,
-                                        fontWeight: FontWeight.w400,
-                                        color: Colors.white70,
-                                        overflow: TextOverflow.ellipsis),
+                                    fontSize: 15.0,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
                                   ),
+                                  children: [
+                                    WidgetSpan(
+                                      alignment: ui.PlaceholderAlignment.bottom,
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                            border: Border.all(
+                                                color: Colors.white70),
+                                            borderRadius:
+                                                BorderRadius.circular(20.0)),
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 8.0, vertical: 1.0),
+                                          child: Text(
+                                            repo.private == true
+                                                ? 'Private'
+                                                : 'Public',
+                                            style: const TextStyle(
+                                                fontSize: 10.0,
+                                                fontWeight: FontWeight.w400,
+                                                color: Colors.white70,
+                                                overflow:
+                                                    TextOverflow.ellipsis),
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  ],
                                 ),
                               ),
                             ),
@@ -137,7 +139,8 @@ class RepoListView extends StatelessWidget {
                                   child: Row(
                                     children: [
                                       Padding(
-                                        padding: const EdgeInsets.only(right: 3),
+                                        padding:
+                                            const EdgeInsets.only(right: 3),
                                         child: Container(
                                           width: 13.0,
                                           height: 13.0,
