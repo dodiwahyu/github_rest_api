@@ -46,6 +46,7 @@ class _UserPageState extends State<UserPage> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       final vm = Provider.of<UserVM>(context, listen: false);
       vm.setUserModel(userModel);
+      vm.setUserPageType(userPageType);
       vm.getUserOrganization();
     });
   }

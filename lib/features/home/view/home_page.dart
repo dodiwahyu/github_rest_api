@@ -60,30 +60,73 @@ class HomePage extends ViewStateless {
                       }
                     },
                   ),
-                  drawer: HomeDrawer(context: context, homeVM: viewModel, callBack: (selectedItem) {
-                    switch (selectedItem) {
-                      case 'organization':
-                        break;
-                      case 'followers':
-                        break;
-                      case 'following':
-                        break;
-                      case 'starred':
-                        break;
-                      case 'subscriptions':
-                        break;
-                      case 'repos':
-                        break;
-                      case 'logout':
-                        viewModel.logout().then((_) {
-                          Navigator.pop(context);
-                          navigateToLogin(context: context);
-                        });
-                        break;
-                      default:
-                        break;
-                    }
-                  },),
+                  drawer: HomeDrawer(
+                    context: context,
+                    homeVM: viewModel,
+                    callBack: (selectedItem) {
+                      final userModel = viewModel.userModel;
+                      switch (selectedItem) {
+                        case 'organization':
+                          if (userModel != null) {
+                            navigateToUserDetail(
+                                context: context,
+                                userModel: userModel,
+                                pageType: UserPageType.organization);
+                          }
+                          break;
+                        case 'followers':
+                          if (userModel != null) {
+                            navigateToUserDetail(
+                                context: context,
+                                userModel: userModel,
+                                pageType: UserPageType.followers);
+                          }
+                          break;
+                        case 'following':
+                          if (userModel != null) {
+                            navigateToUserDetail(
+                                context: context,
+                                userModel: userModel,
+                                pageType: UserPageType.following);
+                          }
+                          break;
+                        case 'starred':
+                          if (userModel != null) {
+                            navigateToUserDetail(
+                                context: context,
+                                userModel: userModel,
+                                pageType: UserPageType.starred);
+                          }
+                          break;
+                        case 'subscriptions':
+                          if (userModel != null) {
+                            navigateToUserDetail(
+                                context: context,
+                                userModel: userModel,
+                                pageType: UserPageType.subscriptions);
+                          }
+                          break;
+                        case 'repos':
+                          if (viewModel.userModel != null) {
+                            navigateToUserDetail(
+                                context: context,
+                                userModel: viewModel.userModel!,
+                                pageType: UserPageType.repos);
+                          }
+                          break;
+                        case 'logout':
+                          viewModel.logout().then(
+                            (_) {
+                              Navigator.pop(context);
+                              navigateToLogin(context: context);
+                            },
+                          );
+                          break;
+                        default:
+                          break;
+                      }
+                    },
+                  ),
                 );
               }
             });
@@ -144,7 +187,8 @@ class HomePage extends ViewStateless {
                 child: card,
                 onTap: () {
                   final selectedModel = card.userModel;
-                  navigateToUserDetail(context: context,
+                  navigateToUserDetail(
+                      context: context,
                       userModel: selectedModel,
                       pageType: UserPageType.organization);
                 },
@@ -154,4 +198,3 @@ class HomePage extends ViewStateless {
     );
   }
 }
-

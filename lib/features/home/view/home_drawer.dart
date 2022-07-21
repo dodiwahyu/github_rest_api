@@ -88,6 +88,7 @@ class HomeDrawer extends StatelessWidget {
                   child: Image(image: AssetImage(icon)),
                 ),
                 onTap: () {
+                  Scaffold.of(context).closeDrawer();
                   callBack(title.toLowerCase());
                 },
               );
