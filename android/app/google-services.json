@@ -1,0 +1,82 @@
+{
+  "project_info": {
+    "project_number": "1058124876676",
+    "project_id": "githubapp-5cac3",
+    "storage_bucket": "githubapp-5cac3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1058124876676:android:6a47c4577afca607966bd1",
+        "android_client_info": {
+          "package_name": "com.example.github_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1058124876676-n47ba0gsimi4v10serdr6a2plad85uvj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBLMwchUudKMBAHNw_UCPQKCNWtc6oi9Yo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1058124876676-n47ba0gsimi4v10serdr6a2plad85uvj.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1058124876676-vpaijg22ql2q5adsung15112gd2pev8e.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "dev.dodi.githubapp"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1058124876676:android:2c1c1da630c4aa12966bd1",
+        "android_client_info": {
+          "package_name": "dev.dodi.githubapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1058124876676-n47ba0gsimi4v10serdr6a2plad85uvj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBLMwchUudKMBAHNw_UCPQKCNWtc6oi9Yo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1058124876676-n47ba0gsimi4v10serdr6a2plad85uvj.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1058124876676-vpaijg22ql2q5adsung15112gd2pev8e.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "dev.dodi.githubapp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
